@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body>
+    <div id="timerApp" x-data="timerApp" x-bind:style="{ backgroundColor: backgroundColor }" style="display:inline-block; padding: 20px">
+        <div>
+        Mode: <span x-text="mode"></span>
+        </div>
+        <div style="padding-bottom: 5px">
+            Timer: <span x-text="minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0')"></span>
+        </div>
+        <div class="buttons">
+                <button @click="startTimer">Start</button>
+                <button @click="stopTimer">Pause</button>
+                <button @click="resetTimer">Reset</button>
+        </div>
+    </div>
+    </div>
+    <script>
+        function timerApp() {
+            return {
+                time: 1500,
+                minutes: 25,
+                seconds: 0,
+                timer_running: false,
+                mode: 'Working',
+                timer: null,
+                backgroundColor: 'green',   
+                startTimer() {
+                    if (!this.timer_running) {
+                        this.timer = setInterval(() => {
+                            this.time--
+                            this.minutes = Math.floor(this.time / 60);
+                            this.seconds = this.time % 60;
+                            this.timer_running = true
+                            if (this.time <= 0) {
+                                this.stopTimer()
+                                this.seconds = 0
+                                if (this.mode === 'Working') {
+                                    this.mode = 'Break'
+                                    this.backgroundColor = 'red'
+                                    this.time = 300
+                                    this.minutes = 5
+                                } else {
+                                    this.resetTimer()
+                                }
+                                this.startTimer()
+                            }
+                        }, 1000)
+                    };
+                },
+                stopTimer() {
+                    clearInterval(this.timer);
+                    this.timer_running = false
+                },
+                resetTimer() {
+                    this.stopTimer()
+                    this.time = 1500
+                    this.minutes = 25
+                    this.seconds = 0
+                    this.mode = 'Working'
+                    this.backgroundColor = 'green'
+                }
+
+            }
+        }
+    </script>
+</body>
+</html>
