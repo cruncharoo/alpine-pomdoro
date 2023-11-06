@@ -11,7 +11,7 @@ class TimerApp extends HTMLElement {
 
     const template = document.createElement("template");
     template.innerHTML = `
-    <div id="timerApp" style="display:inline-block; padding: 20px">
+    <div id="timerApp" style="display:inline-block; padding: 20px;">
         <div>
         Mode: <span id="displayMode"></span>
         </div>
@@ -49,13 +49,13 @@ class TimerApp extends HTMLElement {
         this.updateTime();
         if (this.time <= 0) {
           this.stopTimer();
-          this.seconds = 0;
           if (this.mode === "Working") {
             this.setBreakTimer();
           } else {
             this.resetTimer();
           }
           this.startTimer();
+          this.seconds = 0;
         }
       }, 1000);
     }
@@ -79,12 +79,12 @@ class TimerApp extends HTMLElement {
   }
 
   setBreakTimer() {
+    this.time = 300;
+    this.minutes = 5;
     this.mode = "Break";
     this.updateMode();
     this.backgroundColor = "red";
     this.updateColor();
-    this.time = 300;
-    this.minutes = 5;
   }
 
   updateTime() {
