@@ -1,7 +1,7 @@
 class TimerApp extends HTMLElement {
   constructor() {
     super();
-    this.time = 15;
+    this.time = 1500;
     this.minutes = 25;
     this.seconds = 0;
     this.timer_running = false;
@@ -26,6 +26,7 @@ class TimerApp extends HTMLElement {
         </div>
     </div>
     `;
+
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
@@ -50,12 +51,7 @@ class TimerApp extends HTMLElement {
           this.stopTimer();
           this.seconds = 0;
           if (this.mode === "Working") {
-            this.mode = "Break";
-            this.updateMode();
-            this.backgroundColor = "red";
-            this.updateColor();
-            this.time = 15;
-            this.minutes = 5;
+            this.setBreakTimer();
           } else {
             this.resetTimer();
           }
@@ -72,7 +68,7 @@ class TimerApp extends HTMLElement {
 
   resetTimer() {
     this.stopTimer();
-    this.time = 15;
+    this.time = 1500;
     this.minutes = 25;
     this.seconds = 0;
     this.updateTime();
@@ -80,6 +76,15 @@ class TimerApp extends HTMLElement {
     this.updateMode();
     this.backgroundColor = "green";
     this.updateColor();
+  }
+
+  setBreakTimer() {
+    this.mode = "Break";
+    this.updateMode();
+    this.backgroundColor = "red";
+    this.updateColor();
+    this.time = 300;
+    this.minutes = 5;
   }
 
   updateTime() {
